@@ -30,6 +30,8 @@ public class Main {
       return inputLine.matches(".*\\d.*");
     } else if ("\\w".equals(pattern)) {
       return inputLine.matches(".*\\w.*");
+    } else if (pattern.startsWith("[") && pattern.endsWith("]")) {
+      return inputLine.matches(".*" + pattern + ".*");
     } else if (pattern.length() == 1) {
       return inputLine.contains(pattern);
     } else {
