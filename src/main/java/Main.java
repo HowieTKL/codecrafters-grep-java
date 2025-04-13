@@ -17,9 +17,11 @@ public class Main {
     String inputLine = scanner.nextLine();
 
     if (matchPattern(inputLine, pattern)) {
-         System.exit(0);
+      LOG.debug("Match pattern - exit 0");
+      System.exit(0);
     } else {
-         System.exit(1);
+      LOG.debug("Did not match pattern - exit 1");
+      System.exit(1);
     }
   }
 
