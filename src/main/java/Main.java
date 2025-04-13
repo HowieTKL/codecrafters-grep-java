@@ -28,6 +28,8 @@ public class Main {
   public static boolean matchPattern(String inputLine, String pattern) {
     if ("\\d".equals(pattern)) {
       return inputLine.matches(".*\\d.*");
+    } else if ("\\w".equals(pattern)) {
+      return inputLine.matches(".*\\w.*");
     } else if (pattern.length() == 1) {
       return inputLine.contains(pattern);
     } else {
