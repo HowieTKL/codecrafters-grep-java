@@ -26,7 +26,9 @@ public class Main {
   }
 
   public static boolean matchPattern(String inputLine, String pattern) {
-    if (pattern.length() == 1) {
+    if ("\\d".equals(pattern)) {
+      return inputLine.matches(".*\\d.*");
+    } else if (pattern.length() == 1) {
       return inputLine.contains(pattern);
     } else {
       throw new RuntimeException("Unhandled pattern: " + pattern);
