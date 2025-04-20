@@ -58,6 +58,12 @@ public class Main {
           LOG.debug("checkStartMatch failed");
           return false;
         }
+      } else if (expr.endsWith("$")) {
+        index = checkEndMatch(inputLine, expr, index);
+        if (index == -1) {
+          LOG.debug("checkEndMatch failed");
+          return false;
+        }
       } else {
         index = checkSimpleMatch(inputLine, expr, index);
         if (index == -1) {
@@ -133,4 +139,10 @@ public class Main {
     }
     return i == expr.length() ? i : -1;
   }
+
+  static int checkEndMatch(String inputLine, String expr, int index) {
+    expr = expr.substring(1, expr.length() - 1);
+    return inputLine.endsWith(expr) ? inputLine.length() : -1;
+  }
+
 }
