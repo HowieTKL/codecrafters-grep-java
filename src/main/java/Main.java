@@ -37,25 +37,31 @@ public class Main {
       if ("\\d".equals(expr)) {
         index = checkDigit(inputLine, index);
         if (index == -1) {
-          LOG.debug("checkDigit failed index={}", index);
+          LOG.debug("checkDigit failed");
           return false;
         }
       } else if ("\\w".equals(expr)) {
         index = checkLetterDigit(inputLine, index);
         if (index == -1) {
-          LOG.debug("checkLetterDigit failed index={}", index);
+          LOG.debug("checkLetterDigit failed");
           return false;
         }
       } else if (expr.startsWith("[") && expr.endsWith("]")) {
         index = checkSquareBracketMatch(inputLine, expr, index);
         if (index == -1) {
-          LOG.debug("checkSquareBracketMatch failed index={}", index);
+          LOG.debug("checkSquareBracketMatch failed");
+          return false;
+        }
+      } else if (expr.startsWith("^")) {
+        index = checkStartMatch(inputLine, expr, index);
+        if (index == -1) {
+          LOG.debug("checkStartMatch failed");
           return false;
         }
       } else {
         index = checkSimpleMatch(inputLine, expr, index);
         if (index == -1) {
-          LOG.debug("checkSimpleMatch failed index={}", index);
+          LOG.debug("checkSimpleMatch failed");
           return false;
         }
       }
@@ -64,11 +70,13 @@ public class Main {
   }
 
   static int checkDigit(String inputLine, int index) {
-    for (int i = index; i < inputLine.length(); ++i) {
+    int i;
+    for (i = index; i < inputLine.length(); ++i) {
       if (Character.isDigit(inputLine.charAt(i))) {
         return ++i;
       }
     }
+    LOG.debug("checkDigit failed index={}", i);
     return -1;
   }
 
@@ -83,8 +91,9 @@ public class Main {
 
   static int checkSimpleMatch(String inputLine, String expr, int index) {
     boolean isMatching = false;
-    int exprIndex = 0;
-    for (int i = index; i < inputLine.length() && exprIndex < expr.length(); ++i) {
+    int exprIndex;
+    int i;
+    for (i = index, exprIndex = 0; i < inputLine.length() && exprIndex < expr.length(); ++i) {
       if (inputLine.charAt(i) == expr.charAt(exprIndex)) {
         isMatching = true;
         ++exprIndex;
@@ -93,7 +102,7 @@ public class Main {
         exprIndex = 0;
       }
     }
-    return exprIndex == expr.length() ? ++index : -1;
+    return exprIndex == expr.length() ? i : -1;
   }
 
   static int checkSquareBracketMatch(String inputLine, String expr, int index) {
@@ -114,4 +123,14 @@ public class Main {
     return -1;
   }
 
+  static int checkStartMatch(String inputLine, String expr, int index) {
+    expr = expr.substring(1);
+    int i;
+    for (i = index; i < inputLine.length() && i < expr.length(); ++i) {
+      if (inputLine.charAt(i) != expr.charAt(i)) {
+        return -1;
+      }
+    }
+    return i == expr.length() ? i : -1;
+  }
 }
