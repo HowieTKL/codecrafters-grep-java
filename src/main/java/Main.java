@@ -98,10 +98,16 @@ public class Main {
 
   static int checkSquareBracketMatch(String inputLine, String expr, int index) {
     Set<Character> lookup = new HashSet<>();
-    expr.substring(1, expr.length() - 1).chars().forEach(c -> lookup.add((char) c));
+    int startExprIndex = 1;
+    if (expr.charAt(1) == '^') {
+      startExprIndex = 2;
+    }
+    expr.substring(startExprIndex, expr.length() - 1).chars().forEach(c -> lookup.add((char) c));
 
     for (int i = index; i < inputLine.length(); ++i) {
-      if (lookup.contains(inputLine.charAt(i))) {
+      if (startExprIndex == 1 && lookup.contains(inputLine.charAt(i))) {
+        return ++i;
+      } else if (startExprIndex == 2 && !lookup.contains(inputLine.charAt(i))) {
         return ++i;
       }
     }
