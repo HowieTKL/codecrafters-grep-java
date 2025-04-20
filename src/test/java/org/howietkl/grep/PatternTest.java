@@ -29,6 +29,7 @@ class PatternTest {
     assertEquals(List.of("\\d", "\\d", " apple ", "\\d", "\\w"), Pattern.parsePattern("\\d\\d apple \\d\\w"));
     assertEquals(List.of("[abc]"), Pattern.parsePattern("[abc]"));
     assertEquals(List.of("\\d", "[abc]", "\\d"), Pattern.parsePattern("\\d[abc]\\d"));
+    assertEquals(List.of("h", "[ae]", "llo", "\\d", "world", "\\d" ), Pattern.parsePattern("h[ae]llo\\dworld\\d"));
     assertEquals(List.of("defen", "[cs]", "e" ), Pattern.parsePattern("defen[cs]e"));
   }
 }
